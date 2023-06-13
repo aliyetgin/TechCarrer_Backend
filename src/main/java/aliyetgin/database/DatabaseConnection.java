@@ -35,7 +35,7 @@ public class DatabaseConnection extends DatabaseInformation {
             Class.forName(forNameData);
             log.info("Driver Yüklendi");
             connection = DriverManager.getConnection(url, user, password);
-            log.info("Database bağlantısı başarılı");
+            log.info("Database bağlantısı başarılı \n");
         } catch (Exception exception) {
             exception.printStackTrace();
             log.error(DatabaseConnection.class + "driver or connection failed!!!");

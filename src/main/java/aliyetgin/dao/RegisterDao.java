@@ -19,7 +19,6 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             // Connection, Close Transaction
             connection.setAutoCommit(false);
 
-            // insert into blog.register (name,surname,email,password) values ("name44","surname44","email44@gmail.com","password44");
             String sql="insert into blog.register (name,surname,email,password) values (?,?,?,?);";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1, registerDto.getName());
@@ -44,6 +43,62 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
         }
     }
 
+    // LIST
+    @Override
+    public ArrayList<RegisterDto> list() {
+        ArrayList<RegisterDto> registerDtoList = new ArrayList<>();
+        RegisterDto registerDto;
+        try(Connection connection=getInterfaceConnection()) {
+            String sql="select * from blog.register;";
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                registerDto = new RegisterDto();
+                registerDto.setId(resultSet.getLong("id"));
+                registerDto.setName(resultSet.getString("name"));
+                registerDto.setSurname(resultSet.getString("surname"));
+                registerDto.setEmail(resultSet.getString("email"));
+                registerDto.setPassword(resultSet.getString("password"));
+                registerDtoList.add(registerDto);
+            }
+        }catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return registerDtoList;
+    }
+
+    // FIND
+    @Override
+    public RegisterDto find(long id) {
+        RegisterDto registerDto = new RegisterDto();
+        try(Connection connection=getInterfaceConnection()) {
+            // Connection, Close Transaction
+            connection.setAutoCommit(false);
+
+            String sql="select * from blog.register where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                registerDto.setId(resultSet.getLong("id"));
+                registerDto.setName(resultSet.getString("name"));
+                registerDto.setSurname(resultSet.getString("surname"));
+                registerDto.setEmail(resultSet.getString("email"));
+                registerDto.setPassword(resultSet.getString("password"));
+            } else {
+                log.info("No register found with ID: " + id);
+            }
+        }catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return registerDto;
+    }
+
     // UPDATE
     @Override
     public void update(RegisterDto registerDto) {
@@ -51,7 +106,6 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             // Connection, Close Transaction
             connection.setAutoCommit(false);
 
-            // update blog.register set name=?,surname=?,email=?,password=? where id=?;
             String sql="update blog.register set name=?,surname=?,email=?,password=? where id=?;";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1, registerDto.getName());
@@ -84,11 +138,9 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             // Connection, Close Transaction
             connection.setAutoCommit(false);
 
-            // delete from blog.register where id=?;
             String sql="delete from blog.register where id=?";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setLong(1, registerDto.getId());
-            // UPDATING
             int rowsEffected = preparedStatement.executeUpdate();
             if(rowsEffected > 0){
                 log.info(RegisterDto.class + " Deleted successfully");
@@ -104,34 +156,5 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    // LIST
-    @Override
-    public ArrayList<RegisterDto> list() {
-        ArrayList<RegisterDto> registerDtoList = new ArrayList<>();
-        RegisterDto registerDto;
-        try(Connection connection=getInterfaceConnection()) {
-            // select * from blog.register;
-            String sql="select * from blog.register;";
-            PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            //preparedStatement.setLong(1, registerDto.getId());
-            // UPDATING
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                registerDto = new RegisterDto();
-                registerDto.setId(resultSet.getLong("id"));
-                registerDto.setName(resultSet.getString("name"));
-                registerDto.setSurname(resultSet.getString("surname"));
-                registerDto.setEmail(resultSet.getString("email"));
-                registerDto.setPassword(resultSet.getString("password"));
-                registerDtoList.add(registerDto);
-            }
-        }catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return registerDtoList;
-    }
-}
+    }// end of delete method
+}// end of class

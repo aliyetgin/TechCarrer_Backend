@@ -12,13 +12,18 @@ public interface IRegisterController {
     // CREATE
     public void create(RegisterDto registerDto);
 
+    // LIST
+    public ArrayList<RegisterDto> list();
+
+    // FIND
+    public RegisterDto find(long id);
+
     // UPDATE
     public void update(RegisterDto registerDto);
 
     // DELETE
     public void delete(RegisterDto registerDto);
 
-    // LIST
-    public ArrayList<RegisterDto> list();
+
 } // end of interface
 

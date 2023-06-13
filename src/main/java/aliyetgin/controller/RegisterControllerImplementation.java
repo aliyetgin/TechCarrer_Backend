@@ -32,4 +32,8 @@ public class RegisterControllerImplementation implements IRegisterController{
     public ArrayList<RegisterDto> list() {
         return registerDao.list();
     }
+
+    // FIND
+    @Override
+    public RegisterDto find(long id) {  return registerDao.find(id); }
 }
