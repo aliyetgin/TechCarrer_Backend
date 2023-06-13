@@ -16,6 +16,9 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
     @Override
     public void create(RegisterDto registerDto) {
         try(Connection connection=getInterfaceConnection()) {
+            // Connection, Close Transaction
+            connection.setAutoCommit(false);
+
             // insert into blog.register (name,surname,email,password) values ("name44","surname44","email44@gmail.com","password44");
             String sql="insert into blog.register (name,surname,email,password) values (?,?,?,?);";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
@@ -27,8 +30,12 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             int rowsEffected = preparedStatement.executeUpdate();
             if(rowsEffected > 0){
                 log.info(RegisterDto.class + " Added successfully");
+                // if transaction is successful, process continues
+                connection.commit();
             }else {
                 log.info(RegisterDto.class + " Addition failed");
+                // if transaction is unsuccessful, process doesn't continue
+                connection.rollback();
             }
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -41,6 +48,9 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
     @Override
     public void update(RegisterDto registerDto) {
         try(Connection connection=getInterfaceConnection()) {
+            // Connection, Close Transaction
+            connection.setAutoCommit(false);
+
             // update blog.register set name=?,surname=?,email=?,password=? where id=?;
             String sql="update blog.register set name=?,surname=?,email=?,password=? where id=?;";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
@@ -53,8 +63,12 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             int rowsEffected = preparedStatement.executeUpdate();
             if(rowsEffected > 0){
                 log.info(RegisterDto.class + " Updated successfully");
+                // if transaction is successful, process continues
+                connection.commit();
             }else {
                 log.info(RegisterDto.class + " Update failed");
+                // if transaction is unsuccessful, process doesn't continue
+                connection.rollback();
             }
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -67,6 +81,9 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
     @Override
     public void delete(RegisterDto registerDto) {
         try(Connection connection=getInterfaceConnection()) {
+            // Connection, Close Transaction
+            connection.setAutoCommit(false);
+
             // delete from blog.register where id=?;
             String sql="delete from blog.register where id=?";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
@@ -75,8 +92,12 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             int rowsEffected = preparedStatement.executeUpdate();
             if(rowsEffected > 0){
                 log.info(RegisterDto.class + " Deleted successfully");
+                // if transaction is successful, process continues
+                connection.commit();
             }else {
                 log.info(RegisterDto.class + " Delete failed");
+                // if transaction is unsuccessful, process doesn't continue
+                connection.rollback();
             }
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -94,7 +115,7 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
             // select * from blog.register;
             String sql="select * from blog.register;";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setLong(1, registerDto.getId());
+            //preparedStatement.setLong(1, registerDto.getId());
             // UPDATING
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){

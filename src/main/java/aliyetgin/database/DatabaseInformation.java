@@ -1,9 +1,12 @@
 package aliyetgin.database;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 //Lombok
-@Data
+@Getter
+@Setter
 
 abstract public class DatabaseInformation {
     //Fields
@@ -27,4 +30,7 @@ abstract public class DatabaseInformation {
         this.password = userPassword;
         this.forNameData = forNameData;
     }
+
+
+
 } //end of class

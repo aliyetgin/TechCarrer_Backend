@@ -10,25 +10,28 @@ import java.sql.SQLException;
 
 //LOMBOK
 @Log4j2
-@Getter @Setter
+@Getter
+@Setter
 public class DatabaseConnection extends DatabaseInformation {
 
     // Connection
     private Connection connection;
-    private String url=this.getUrl();
-    private String user=this.getUser();
-    private String password=this.getPassword();
-    private String forNameData=this.getForNameData();
+
+    private String url = super.getUrl();
+    private String user = super.getUser();
+    private String password = super.getPassword();
+    private String forNameData = super.getForNameData();
+
+
 
     // Singleton Design Pattern
     // Singleton Class
 
     private static DatabaseConnection instance;
 
-    // Singleton Constructor: to make sure we dont get new instances
+    // Singleton Constructor: to make sure we don't get new instances
     private DatabaseConnection() throws ClassNotFoundException, SQLException {
         try {
-            // Database ilgili classa erişim sağlamak için
             Class.forName(forNameData);
             log.info("Driver Yüklendi");
             connection = DriverManager.getConnection(url, user, password);

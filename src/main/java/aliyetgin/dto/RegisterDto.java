@@ -5,10 +5,12 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.Date;
 //LOMBOK
-@Getter @Setter // @Data @ToString
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 @Log4j2
+@ToString
 
 public class RegisterDto extends BaseDto {
     //Field
@@ -29,14 +31,4 @@ public class RegisterDto extends BaseDto {
         this.password = password;
     }
 
-    // toString
-    @Override
-    public String toString() {
-        return "Register{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }//end of class
