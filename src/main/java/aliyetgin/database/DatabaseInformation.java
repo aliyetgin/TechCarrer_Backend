@@ -19,7 +19,7 @@ abstract public class DatabaseInformation {
     public DatabaseInformation() {
         this.url="jdbc:mysql://localhost:3306/blog";
         this.user="root";
-        this.password="ali2459";
+        this.password="****";//enter your password
         this.forNameData="com.mysql.cj.jdbc.Driver";
     }
 
