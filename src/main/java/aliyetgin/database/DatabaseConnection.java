@@ -33,9 +33,9 @@ public class DatabaseConnection extends DatabaseInformation {
     private DatabaseConnection() throws ClassNotFoundException, SQLException {
         try {
             Class.forName(forNameData);
-            log.info("Driver Yüklendi");
+            log.info("Driver loaded successfully");
             connection = DriverManager.getConnection(url, user, password);
-            log.info("Database bağlantısı başarılı \n");
+            log.info("Database connection is successful \n");
         } catch (Exception exception) {
             exception.printStackTrace();
             log.error(DatabaseConnection.class + "driver or connection failed!!!");
